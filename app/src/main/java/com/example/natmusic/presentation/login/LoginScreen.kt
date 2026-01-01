@@ -10,9 +10,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    onLoginSuccess: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "Login Screen")
+        androidx.compose.material3.Button(onClick = onLoginSuccess) {
+            Text(text = "Go to Home")
+        }
     }
 }
