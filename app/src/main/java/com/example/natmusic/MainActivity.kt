@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.natmusic.presentation.designsystem.NATMusicTheme
-import com.example.natmusic.presentation.login.LoginScreen
+import com.example.natmusic.presentation.navigation.AppNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NATMusicTheme {
-                LoginScreen()
+                AppNavigation()
             }
         }
     }
