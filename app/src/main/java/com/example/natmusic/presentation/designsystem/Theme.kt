@@ -1,4 +1,4 @@
-package com.example.natmusic.presentation.common.theme
+package com.example.natmusic.presentation.designsystem
 
 import android.app.Activity
 import android.os.Build

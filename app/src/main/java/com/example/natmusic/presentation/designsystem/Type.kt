@@ -1,4 +1,4 @@
-package com.example.natmusic.presentation.common.theme
+package com.example.natmusic.presentation.designsystem
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
