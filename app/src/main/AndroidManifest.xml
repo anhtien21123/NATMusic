@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- ── Permissions ────────────────────────────────────────────────────── -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".NATMusicApplication"
@@ -11,29 +13,53 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NATMusic">
+        android:theme="@style/Theme.NATMusic"
+        tools:targetApi="31">
+
+        <!-- ── Main entry point ─────────────────────────────────────────── -->
+        <!--
+            android:theme here sets the *window* background before Compose
+            renders. NATMusicTheme {} (in Compose) takes over from there.
+            No @AndroidEntryPoint — Koin requires zero activity annotations.
+        -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.NATMusic">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- Deep-link intent filter for natmusic:// scheme -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="natmusic" android:host="natmusic.example.com" />
+            </intent-filter>
         </activity>
+
+        <!-- ── Media3 playback service ──────────────────────────────────── -->
+        <!--
+            MusicService is a MediaSessionService that keeps ExoPlayer alive
+            while the app is in the background. It is intentionally kept in
+            :app (not a feature module) because it is a system-level component.
+        -->
         <service
             android:name=".service.MusicService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback">
             <intent-filter>
-                <action android:name="androidx.media3.session.MediaSessionService"/>
+                <action android:name="androidx.media3.session.MediaSessionService" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>

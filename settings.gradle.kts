@@ -20,5 +20,16 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "NATMusic"
+
+// ─── App shell ────────────────────────────────────────────────────────────────
 include(":app")
- 
+
+// ─── Core modules ─────────────────────────────────────────────────────────────
+include(":core:mvi")          // BaseViewModel · ViewState · ViewIntent · ViewSingleEvent
+include(":core:common_ui")    // Design System · Theme · Components · collectSingleEvent
+include(":core:navigation")   // ALL @Serializable routes · deep-link constants · NavBackStack extensions
+
+// ─── Feature modules ──────────────────────────────────────────────────────────
+include(":feature:home")      // Always-present bottom-nav container (Home · Explore · Library)
+include(":feature:login")     // DFM candidate — Koin modules loaded on demand
+include(":feature:setting")   // DFM candidate — Koin modules loaded on demand
