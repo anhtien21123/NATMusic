@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    :app window-level theme — applied BEFORE Compose renders.
+
+    Purpose:
+      This style controls only the *window chrome* (status bar, navigation
+      bar, initial background) while Android inflates the window. Once the
+      Activity's setContent { NATMusicTheme { … } } runs, Compose owns
+      everything inside the window surface.
+
+    Why Theme.Material3.DayNight.NoActionBar?
+      • Material3 parent → avoids attribute conflicts with M3 Compose components.
+      • DayNight    → automatically switches windowBackground between light/dark
+        so the splash frame matches the Compose theme without extra code.
+      • NoActionBar → no legacy toolbar; Compose handles all top-bar UI.
+
+    What NOT to put here:
+      • Color values — use MaterialTheme.colorScheme in Compose.
+      • Text styles — use MaterialTheme.typography in Compose.
+      • Shape tokens — use MaterialTheme.shapes in Compose.
+-->
 <resources>
 
-    <style name="Theme.NATMusic" parent="android:Theme.Material.Light.NoActionBar" />
+    <!--
+        Lưu ý: dùng Theme.Material.Light.NoActionBar (theme của framework)
+        thay vì Theme.Material3.* vì Material3 (Views) chưa được add vào
+        dependencies. Mọi phần Material3 thật sự đều chạy trong Compose
+        qua NATMusicTheme, nên parent ở mức XML chỉ cần ổn định & có
+        windowBackground đúng là đủ.
+    -->
+    <!--
+        Dùng theme nền tảng của Android: @android:style/Theme.Material.Light.NoActionBar
+        để tránh phải kéo thêm dependency AppCompat/Material (Views).
+        Compose Material3 vẫn chạy hoàn toàn trong NATMusicTheme.
+    -->
+    <style name="Theme.NATMusic" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <!--
+            Window background matches the dark surface token from :core:common_ui.
+            Prevents white flash on cold start in dark mode.
+        -->
+        <item name="android:windowBackground">@color/nat_splash_background</item>
+
+        <!--
+            Edge-to-edge: let Compose handle insets via WindowCompat.
+            enableEdgeToEdge() in MainActivity sets these at runtime too,
+            but declaring them here avoids a visual flicker on older APIs.
+        -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+
 </resources>

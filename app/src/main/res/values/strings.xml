@@ -1,3 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    :app strings — only entries that MUST live at the application level.
+
+    ⚠  Do NOT add feature strings here.
+       All shared user-visible strings live in :core:common_ui/res/values/strings.xml
+       with the "nat_" prefix to prevent merge conflicts.
+
+    What belongs here:
+      • android:label in AndroidManifest (app / activity titles)
+      • Provider authorities, file-provider paths, etc.
+      • Any string referenced by android:authorities or android:scheme
+-->
 <resources>
+    <!--
+        App label shown in the launcher and recents screen.
+        AndroidManifest references this as @string/app_name.
+        Kept unprefixed intentionally so the manifest stays readable.
+    -->
     <string name="app_name">NATMusic</string>
 </resources>
