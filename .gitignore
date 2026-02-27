@@ -1,15 +1,36 @@
+## IDE files ###################################################################
+
 *.iml
-.gradle
-/local.properties
+.idea/
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+
+## Gradle / Kotlin / Build system ##############################################
+
+.gradle/
+build/
+**/build/
 local.properties
+/local.properties
+
+## Android native build ########################################################
+
+.externalNativeBuild/
+.cxx/
+
+## Outputs #####################################################################
+
+*.apk
+*.aab
+*.ap_
+*.hprof
+
+## Misc ########################################################################
+
+.DS_Store
+/captures
+
