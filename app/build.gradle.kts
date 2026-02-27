@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -15,6 +17,7 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -28,26 +31,16 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions { jvmTarget = "17" }
-    buildFeatures { compose = true }
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
-    // ─── Feature modules ──────────────────────────────────────────────────────
-    // :app is the composition root — only :app depends on features
-    implementation(project(":feature:home"))
-    implementation(project(":feature:login"))
-    implementation(project(":feature:setting"))
 
-    // ─── Core modules ─────────────────────────────────────────────────────────
-    implementation(project(":core:mvi"))
-    implementation(project(":core:common_ui"))
-    implementation(project(":core:navigation"))   // AppRoute, MainRoute, DeepLinks, NavBackStackExt
-
-    // ─── AndroidX shell ───────────────────────────────────────────────────────
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -56,32 +49,23 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icons.extended)
-
-    // ─── Jetpack Navigation 3 — sole navigation engine ────────────────────────
-    // nav3-runtime: NavDisplay, rememberNavBackStack, NavBackStack, entryProvider
-    implementation(libs.nav3.runtime)
-    // lifecycle-viewmodel-navigation3: scopes ViewModelStore per NavEntry so
-    // koinViewModel() creates ONE instance per screen (not shared across screens)
-    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-
-    // ─── Serialization (for @Serializable routes + deep-link restoration) ─────
-    implementation(libs.kotlinx.serialization.json)
-
-    // ─── Media3 ───────────────────────────────────────────────────────────────
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.media3.session)
 
-    // ─── Koin ─────────────────────────────────────────────────────────────────
-    implementation(platform(libs.koin.bom))
-    implementation(libs.koin.android)
-    implementation(libs.koin.androidx.compose)
-    implementation(libs.androidx.navigation3.ui.android)
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
-    // ─── Test ─────────────────────────────────────────────────────────────────
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.kotlinx.serialization.json)
+
     testImplementation(libs.junit)
-    testImplementation(libs.koin.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
