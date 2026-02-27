@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    ══════════════════════════════════════════════════════════════════════════
+    :core:common_ui — Shared color resources (XML layer)
+    ══════════════════════════════════════════════════════════════════════════
+
+    IMPORTANT: These XML color values are the "raw" layer only.
+      • Feature modules should consume theme colors via MaterialTheme.colorScheme
+        or MaterialTheme.natColors in Compose — NOT by referencing colors.xml.
+      • XML colors are kept for use in:
+          – Window background (styles.xml splash / windowBackground)
+          – Notification icons (RemoteViews, which can't use Compose)
+          – Legacy View-based widgets (if any coexist in the project)
+          – AndroidManifest attributes (e.g. android:statusBarColor in themes.xml)
+
+    NAMING CONVENTION: all entries use the "nat_" prefix.
+      The same collision-prevention rationale as strings.xml applies here.
+      Without the prefix, a "color_primary" in :core:common_ui would
+      conflict with one in :feature:home after Gradle resource merging.
+
+    DFM NOTE:
+      XML resources from library modules are MERGED into the Dynamic Feature
+      APK split at build time — no access issues at runtime.
+      Reference them via the library R class to be explicit:
+        com.example.natmusic.core.common_ui.R.color.nat_brand_accent
+    ══════════════════════════════════════════════════════════════════════════
+-->
+<resources>
+
+    <!-- ── Brand palette (mirrors Color.kt raw values) ───────────────────── -->
+    <!-- These map 1-to-1 with the Kotlin color constants in Color.kt.        -->
+    <!-- Useful for splash screens, notification tray, widget backgrounds.    -->
+
+    <!-- Purple family — primary brand color -->
+    <color name="nat_purple_10">#FF21005D</color>
+    <color name="nat_purple_20">#FF381E72</color>
+    <color name="nat_purple_30">#FF4F378B</color>
+    <color name="nat_purple_40">#FF6750A4</color>
+    <color name="nat_purple_80">#FFD0BCFF</color>
+    <color name="nat_purple_90">#FFEADDFF</color>
+    <color name="nat_purple_95">#FFF6EDFF</color>
+
+    <!-- Teal family — secondary brand color -->
+    <color name="nat_teal_20">#FF003733</color>
+    <color name="nat_teal_40">#FF006A64</color>
+    <color name="nat_teal_80">#FF4FD8CF</color>
+    <color name="nat_teal_90">#FF71F7EE</color>
+
+    <!-- Pink family — tertiary accent -->
+    <color name="nat_pink_40">#FF7D5260</color>
+    <color name="nat_pink_80">#FFEFB8C8</color>
+    <color name="nat_pink_90">#FFFFD8E4</color>
+
+    <!-- Neutral family — backgrounds and surfaces -->
+    <color name="nat_neutral_0">#FF000000</color>
+    <color name="nat_neutral_6">#FF0F0F0F</color>
+    <color name="nat_neutral_10">#FF1C1B1F</color>
+    <color name="nat_neutral_12">#FF1E1E1E</color>
+    <color name="nat_neutral_17">#FF2B2B2B</color>
+    <color name="nat_neutral_22">#FF363636</color>
+    <color name="nat_neutral_90">#FFE6E1E5</color>
+    <color name="nat_neutral_95">#FFF4EFF4</color>
+    <color name="nat_neutral_99">#FFFFFBFE</color>
+    <color name="nat_neutral_100">#FFFFFFFF</color>
+
+    <!-- Error family -->
+    <color name="nat_error_10">#FF410002</color>
+    <color name="nat_error_40">#FFB3261E</color>
+    <color name="nat_error_80">#FFF2B8B5</color>
+    <color name="nat_error_90">#FFFFEBE9</color>
+
+    <!-- ── Semantic / usage tokens ────────────────────────────────────────── -->
+    <!-- Prefer MaterialTheme.colorScheme in Compose. These are for XML usage. -->
+
+    <!-- Primary brand accent (play button, CTA highlights) -->
+    <color name="nat_brand_accent">#FF1DB954</color>
+    <color name="nat_brand_accent_dim">#FF158A3E</color>
+
+    <!-- Light theme semantic tokens -->
+    <color name="nat_light_primary">@color/nat_purple_40</color>
+    <color name="nat_light_background">@color/nat_neutral_99</color>
+    <color name="nat_light_surface">@color/nat_neutral_95</color>
+    <color name="nat_light_on_primary">@color/nat_neutral_100</color>
+
+    <!-- Dark theme semantic tokens -->
+    <color name="nat_dark_primary">@color/nat_purple_80</color>
+    <color name="nat_dark_background">@color/nat_neutral_10</color>
+    <color name="nat_dark_surface">@color/nat_neutral_12</color>
+    <color name="nat_dark_on_primary">@color/nat_purple_20</color>
+
+    <!-- Splash / window background (used in themes.xml windowBackground) -->
+    <color name="nat_splash_background">@color/nat_neutral_10</color>
+
+</resources>
+

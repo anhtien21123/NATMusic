@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    ══════════════════════════════════════════════════════════════════════════
+    :core:common_ui — Shared string resources
+    ══════════════════════════════════════════════════════════════════════════
+
+    NAMING CONVENTION: all entries use the "nat_" prefix.
+
+    Why prefixes matter for multi-module / DFM projects:
+      • Gradle merges all resource tables from library modules and the base APK.
+      • Without a prefix, a string named "loading" in :core:common_ui would
+        silently override (or be overridden by) the same name in :feature:home.
+      • The "nat_" prefix guarantees no name collision, regardless of which
+        modules are loaded at runtime — including dynamically installed DFMs.
+
+    DFM resource access rule:
+      • Always reference these via the library's own R class:
+          com.example.natmusic.core.common_ui.R.string.nat_app_name
+      • Never rely on the host app's merged R class from a DFM — the host
+        R class is not accessible until the DFM is installed on Android 8+.
+    ══════════════════════════════════════════════════════════════════════════
+-->
+<resources>
+
+    <!-- ── App identity ──────────────────────────────────────────────────── -->
+    <string name="nat_app_name">NATMusic</string>
+
+    <!-- ── Generic actions ───────────────────────────────────────────────── -->
+    <string name="nat_action_retry">Retry</string>
+    <string name="nat_action_cancel">Cancel</string>
+    <string name="nat_action_confirm">Confirm</string>
+    <string name="nat_action_save">Save</string>
+    <string name="nat_action_close">Close</string>
+    <string name="nat_action_see_all">See all</string>
+    <string name="nat_action_play_all">Play all</string>
+    <string name="nat_action_shuffle">Shuffle play</string>
+    <string name="nat_action_follow">Follow</string>
+    <string name="nat_action_unfollow">Unfollow</string>
+    <string name="nat_action_add_to_library">Add to library</string>
+    <string name="nat_action_remove_from_library">Remove from library</string>
+
+    <!-- ── Loading / empty / error states ───────────────────────────────── -->
+    <string name="nat_loading">Loading…</string>
+    <string name="nat_loading_library">Loading your library…</string>
+    <string name="nat_loading_tracks">Loading tracks…</string>
+    <string name="nat_empty_title">Nothing here yet</string>
+    <string name="nat_empty_subtitle">Start exploring to build your collection.</string>
+    <string name="nat_error_generic">Something went wrong. Please try again.</string>
+    <string name="nat_error_network">No internet connection.</string>
+    <string name="nat_error_not_found">Content not found.</string>
+
+    <!-- ── Accessibility content descriptions ────────────────────────────── -->
+    <!-- Used in AppTopBar and other shared components so DFMs don't need to
+         re-declare them. Always reference via R.string (not hardcoded). -->
+    <string name="nat_cd_navigate_up">Navigate up</string>
+    <string name="nat_cd_more_options">More options</string>
+    <string name="nat_cd_play">Play</string>
+    <string name="nat_cd_pause">Pause</string>
+    <string name="nat_cd_next_track">Next track</string>
+    <string name="nat_cd_previous_track">Previous track</string>
+    <string name="nat_cd_album_art">Album art for %1$s</string>
+    <string name="nat_cd_like_button">Like %1$s</string>
+
+    <!-- ── Bottom navigation labels ──────────────────────────────────────── -->
+    <string name="nat_nav_home">Home</string>
+    <string name="nat_nav_explore">Explore</string>
+    <string name="nat_nav_library">Library</string>
+
+    <!-- ── Google Fonts certificate array name ───────────────────────────── -->
+    <!-- Required by GoogleFont.Provider. Declared in font_certs.xml.        -->
+    <!-- The array name itself is a resource reference, not a string value.   -->
+
+</resources>
+
