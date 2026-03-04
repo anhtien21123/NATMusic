@@ -46,6 +46,7 @@ dependencies {
     implementation(project(":core:mvi"))
     implementation(project(":core:common_ui"))
     implementation(project(":core:navigation"))   // AppRoute, MainRoute, DeepLinks, NavBackStackExt
+    implementation(project(":core:service"))      // Media3 Service · Player logic
 
     // ─── AndroidX shell ───────────────────────────────────────────────────────
     implementation(libs.androidx.core.ktx)

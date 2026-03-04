@@ -31,6 +31,12 @@ dependencies {
     implementation(project(":core:common_ui"))
     // :core:navigation exposes AppRoute / MainRoute / NavBackStack extensions
     implementation(project(":core:navigation"))
+    implementation(project(":core:mockdata"))
+    implementation(project(":core:service"))
+    
+    // Media3 (Required for MediaItem in ViewModel)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.session)
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -45,6 +51,7 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+    implementation(libs.coil.compose)
 
     debugImplementation(libs.androidx.ui.tooling)
 }

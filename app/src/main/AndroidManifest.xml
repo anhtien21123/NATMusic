@@ -45,20 +45,6 @@
             </intent-filter>
         </activity>
 
-        <!-- ── Media3 playback service ──────────────────────────────────── -->
-        <!--
-            MusicService is a MediaSessionService that keeps ExoPlayer alive
-            while the app is in the background. It is intentionally kept in
-            :app (not a feature module) because it is a system-level component.
-        -->
-        <service
-            android:name=".service.MusicService"
-            android:exported="true"
-            android:foregroundServiceType="mediaPlayback">
-            <intent-filter>
-                <action android:name="androidx.media3.session.MediaSessionService" />
-            </intent-filter>
-        </service>
 
     </application>
 

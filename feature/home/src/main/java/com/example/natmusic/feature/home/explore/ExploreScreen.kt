@@ -1,5 +1,6 @@
 package com.example.natmusic.feature.home.explore
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.natmusic.core.common_ui.collectSingleEvent
 import com.example.natmusic.core.common_ui.component.CategoryCard
 import org.koin.androidx.compose.koinViewModel
+import com.example.natmusic.core.common_ui.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,11 +43,18 @@ fun ExploreScreen(
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    val spacing = MaterialTheme.spacing
+    
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
         Text(
             text = "Search",
             style = MaterialTheme.typography.displaySmall,
-            modifier = Modifier.padding(16.dp)
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(spacing.md)
         )
         SearchBar(
             query = state.searchQuery,
@@ -53,21 +62,26 @@ fun ExploreScreen(
             onSearch = {},
             active = false,
             onActiveChange = {},
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = spacing.md),
             placeholder = { Text("What do you want to listen to?") },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) }
         ) {}
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(spacing.md))
         Text(
             text = "Browse all",
             style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(horizontal = spacing.md, vertical = spacing.sm)
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 100.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            contentPadding = PaddingValues(
+                start = spacing.md, 
+                end = spacing.md, 
+                bottom = spacing.xxxl + spacing.xl
+            ),
+            horizontalArrangement = Arrangement.spacedBy(spacing.md12),
+            verticalArrangement = Arrangement.spacedBy(spacing.md12)
         ) {
             items(state.categories) { item ->
                 CategoryCard(

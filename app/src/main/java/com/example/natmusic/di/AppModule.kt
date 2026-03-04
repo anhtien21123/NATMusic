@@ -1,5 +1,6 @@
 package com.example.natmusic.di
 
+import com.example.natmusic.core.service.di.serviceModule
 import com.example.natmusic.feature.home.di.homeKoinModules
 import com.example.natmusic.ui.DetailViewModel
 import org.koin.core.module.Module
@@ -49,4 +50,4 @@ val appCoreModule: Module = module {
  * └──────────────────────────────────────────────────────────────────────────┘
  */
 val startupModules: List<Module> =
-    listOf(appCoreModule, detailModule) + homeKoinModules
+    listOf(appCoreModule, detailModule, serviceModule) + homeKoinModules

@@ -4,13 +4,10 @@ import com.example.natmusic.core.mvi.ViewIntent
 import com.example.natmusic.core.mvi.ViewSingleEvent
 import com.example.natmusic.core.mvi.ViewState
 
+import com.example.natmusic.core.mockdata.MockMusicItem
+
 // ── Domain model (move to :domain layer when ready) ───────────────────────────
-data class MusicItem(
-    val id: String,
-    val title: String,
-    val subtitle: String,
-    val imageUrl: String
-)
+typealias MusicItem = MockMusicItem
 
 /**
  * MVI contract for the Home (feed) tab.
@@ -22,11 +19,16 @@ object HomeContract {
         val isLoading: Boolean = false,
         val recentItems: List<MusicItem> = emptyList(),
         val recommendedItems: List<MusicItem> = emptyList(),
-        val trendingItems: List<MusicItem> = emptyList()
+        val trendingItems: List<MusicItem> = emptyList(),
+        val isPlaying: Boolean = false,
+        val currentMediaId: String? = null
     ) : ViewState
 
     sealed class Intent : ViewIntent {
         data class OpenMusicItem(val id: String) : Intent()
+        object PlayPause : Intent()
+        object Next : Intent()
+        object Previous : Intent()
     }
 
     sealed class SingleEvent : ViewSingleEvent {

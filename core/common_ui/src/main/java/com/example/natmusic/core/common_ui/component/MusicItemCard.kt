@@ -12,7 +12,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
+import com.example.natmusic.core.common_ui.spacing
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,11 +30,13 @@ fun MusicItemCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
+    val spacing = MaterialTheme.spacing
+    
     Column(
         modifier = modifier
             .width(160.dp)
             .clickable { onClick() }
-            .padding(8.dp)
+            .padding(spacing.sm)
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -43,12 +47,13 @@ fun MusicItemCard(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(160.dp)
-                .clip(RoundedCornerShape(16.dp))
+                .clip(RoundedCornerShape(spacing.md))
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(spacing.sm))
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
