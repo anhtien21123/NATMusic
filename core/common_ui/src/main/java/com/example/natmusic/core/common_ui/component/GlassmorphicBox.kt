@@ -35,22 +35,10 @@ fun GlassmorphicBox(
                             .asComposeRenderEffect()
                     }
                 }
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.White.copy(alpha = 0.2f),
-                            Color.White.copy(alpha = 0.05f)
-                        )
-                    )
-                )
+                .background(MaterialTheme.natColors.surfaceGlass)
                 .border(
                     width = 1.dp,
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color.White.copy(alpha = 0.4f),
-                            Color.White.copy(alpha = 0.1f)
-                        )
-                    ),
+                    color = MaterialTheme.natColors.surfaceBorder,
                     shape = RoundedCornerShape(cornerRadius)
                 )
         )

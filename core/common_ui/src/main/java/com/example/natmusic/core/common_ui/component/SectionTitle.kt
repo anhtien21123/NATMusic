@@ -35,13 +35,13 @@ fun SectionTitle(
         Text(
             text = title,
             style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.natColors.textPrimary
         )
         IconButton(onClick = onMoreClick) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                 contentDescription = "See more",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                tint = MaterialTheme.natColors.textSecondary
             )
         }
     }

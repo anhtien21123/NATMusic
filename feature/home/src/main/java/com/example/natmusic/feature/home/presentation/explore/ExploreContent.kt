@@ -20,33 +20,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.natmusic.core.common_ui.collectSingleEvent
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.natmusic.core.common_ui.component.CategoryCard
-import org.koin.androidx.compose.koinViewModel
 import com.example.natmusic.core.common_ui.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExploreScreen(
-    viewModel: ExploreViewModel = koinViewModel(),
-    onNavigateToCategory: (String) -> Unit = {}
+fun ExploreContent(
+    state: ExploreContract.State,
+    onSearchQueryChange: (String) -> Unit,
+    onCategoryClick: (String) -> Unit,
+    contentPadding: PaddingValues = PaddingValues(),
+    modifier: Modifier = Modifier
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
-    viewModel.singleEvent.collectSingleEvent { event ->
-        when (event) {
-            is ExploreContract.SingleEvent.NavigateToCategory -> onNavigateToCategory(event.id)
-        }
-    }
-
     val spacing = MaterialTheme.spacing
     
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
@@ -58,7 +50,7 @@ fun ExploreScreen(
         )
         SearchBar(
             query = state.searchQuery,
-            onQueryChange = { viewModel.handleIntent(ExploreContract.Intent.Search(it)) },
+            onQueryChange = onSearchQueryChange,
             onSearch = {},
             active = false,
             onActiveChange = {},
@@ -76,9 +68,9 @@ fun ExploreScreen(
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(
-                start = spacing.md, 
-                end = spacing.md, 
-                bottom = spacing.xxxl + spacing.xl
+                start  = spacing.md,
+                end    = spacing.md,
+                bottom = contentPadding.calculateBottomPadding()
             ),
             horizontalArrangement = Arrangement.spacedBy(spacing.md12),
             verticalArrangement = Arrangement.spacedBy(spacing.md12)
@@ -87,10 +79,28 @@ fun ExploreScreen(
                 CategoryCard(
                     title = item.title,
                     color = item.color,
-                    onClick = { viewModel.handleIntent(ExploreContract.Intent.OpenCategory(item.id)) }
+                    onClick = { onCategoryClick(item.id) }
                 )
             }
         }
     }
 }
 
+@Preview
+@Composable
+private fun ExploreContentPreview() {
+    MaterialTheme {
+        ExploreContent(
+            state = ExploreContract.State(
+                categories = listOf(
+                    ExploreItem("1", "Pop", Color(0xFFEF5350)),
+                    ExploreItem("2", "Rock", Color(0xFFAB47BC)),
+                    ExploreItem("3", "Hip-Hop", Color(0xFF42A5F5)),
+                    ExploreItem("4", "Jazz", Color(0xFF26A69A))
+                )
+            ),
+            onSearchQueryChange = {},
+            onCategoryClick = {}
+        )
+    }
+}

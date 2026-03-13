@@ -6,6 +6,24 @@ import com.example.natmusic.core.mvi.ViewState
 import com.example.natmusic.core.navigation.MainRoute
 
 /**
+ * Lightweight snapshot of the currently playing track.
+ *
+ * Derived inside [HomeNavScreen] from [HomeContract.State] and passed down to
+ * [HomeNavContent] → [MiniPlayer]. Using a plain data class (not a nested
+ * contract type) keeps [MiniPlayer] free of any ViewModel/Contract imports.
+ *
+ * Null when nothing is queued in the player.
+ */
+data class NowPlayingUiState(
+    val trackId: String,
+    val title: String,
+    val subtitle: String,
+    val artworkUrl: String,
+    val progress: Float,
+    val isPlaying: Boolean
+)
+
+/**
  * MVI contract for the home-container (bottom-nav shell).
  *
  * [MainRoute] is imported from :core:navigation so that any future feature

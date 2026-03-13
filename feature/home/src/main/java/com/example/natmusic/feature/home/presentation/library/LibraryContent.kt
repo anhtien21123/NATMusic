@@ -19,37 +19,40 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.natmusic.core.common_ui.collectSingleEvent
 import com.example.natmusic.core.common_ui.component.LibraryItem
-import org.koin.androidx.compose.koinViewModel
 
+/**
+ * Interface to group multiple UI actions for the Library screen.
+ * Used when number of callbacks > 5.
+ */
+interface LibraryActions {
+    fun onFilterClick(type: MediaType?)
+    fun onItemClick(id: String)
+    fun onSettingsClick()
+}
+
+/**
+ * Pure stateless UI for the Library feature.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LibraryScreen(
-    viewModel: LibraryViewModel = koinViewModel(),
-    onSettingsClick: () -> Unit
+fun LibraryContent(
+    state: LibraryContract.State,
+    actions: LibraryActions,
+    contentPadding: PaddingValues = PaddingValues(),
+    modifier: Modifier = Modifier
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
-    // ── Lifecycle-aware SingleEvent collection ────────────────────────────────
-    viewModel.singleEvent.collectSingleEvent { event ->
-        when (event) {
-            is LibraryContract.SingleEvent.NavigateToSettings -> onSettingsClick()
-            else -> Unit
-        }
-    }
-
     Scaffold(
+        modifier = modifier,
         topBar = {
             Column {
                 TopAppBar(
                     title = { Text("Library") },
                     actions = {
-                        IconButton(onClick = onSettingsClick) {
+                        IconButton(onClick = actions::onSettingsClick) {
                             Icon(Icons.Default.Settings, contentDescription = "Settings")
                         }
                     }
@@ -62,22 +65,22 @@ fun LibraryScreen(
                 ) {
                     FilterChip(
                         selected = state.selectedFilter == null,
-                        onClick = { viewModel.handleIntent(LibraryContract.Intent.FilterByType(null)) },
+                        onClick = { actions.onFilterClick(null) },
                         label = { Text("All") }
                     )
                     FilterChip(
                         selected = state.selectedFilter == MediaType.PLAYLIST,
-                        onClick = { viewModel.handleIntent(LibraryContract.Intent.FilterByType(MediaType.PLAYLIST)) },
+                        onClick = { actions.onFilterClick(MediaType.PLAYLIST) },
                         label = { Text("Playlists") }
                     )
                     FilterChip(
                         selected = state.selectedFilter == MediaType.ARTIST,
-                        onClick = { viewModel.handleIntent(LibraryContract.Intent.FilterByType(MediaType.ARTIST)) },
+                        onClick = { actions.onFilterClick(MediaType.ARTIST) },
                         label = { Text("Artists") }
                     )
                     FilterChip(
                         selected = state.selectedFilter == MediaType.ALBUM,
-                        onClick = { viewModel.handleIntent(LibraryContract.Intent.FilterByType(MediaType.ALBUM)) },
+                        onClick = { actions.onFilterClick(MediaType.ALBUM) },
                         label = { Text("Albums") }
                     )
                 }
@@ -85,18 +88,32 @@ fun LibraryScreen(
         }
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
-            contentPadding = PaddingValues(bottom = 100.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            contentPadding = PaddingValues(bottom = contentPadding.calculateBottomPadding())
         ) {
             items(state.items) { item ->
                 LibraryItem(
                     title = item.title,
                     subtitle = item.subtitle,
                     imageUrl = item.imageUrl,
-                    onClick = { viewModel.handleIntent(LibraryContract.Intent.OpenItem(item.id)) }
+                    onClick = { actions.onItemClick(item.id) }
                 )
             }
         }
     }
 }
 
+@Preview
+@Composable
+private fun LibraryContentPreview() {
+    LibraryContent(
+        state = LibraryContract.State(),
+        actions = object : LibraryActions {
+            override fun onFilterClick(type: MediaType?) {}
+            override fun onItemClick(id: String) {}
+            override fun onSettingsClick() {}
+        }
+    )
+}

@@ -44,8 +44,8 @@ private val NatDarkColorScheme = darkColorScheme(
     errorContainer   = Nat_Error40,       // slightly darker for dark surfaces
     onErrorContainer = Nat_Error90,
 
-    background       = Nat_Neutral0,      // True black from Design System
-    onBackground     = Nat_Neutral100,    // Pure white from Design System
+    background       = Nat_Bg_DeepBlack,  // Deep Black (#0A0A0A)
+    onBackground     = Nat_Neutral100,    // Pure white
     
     surface          = Color(0xFF121212), // Deep surface
     onSurface        = Nat_Neutral100,
@@ -165,7 +165,7 @@ fun NATMusicTheme(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Nat_Neutral0) // Ensure base background is always solid black
+                        .background(Nat_Bg_DeepBlack) // Ensure base background is always deep black
                 ) {
                     content()
                 }
