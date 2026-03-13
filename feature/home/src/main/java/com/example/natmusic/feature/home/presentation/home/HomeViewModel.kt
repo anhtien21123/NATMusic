@@ -4,32 +4,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import com.example.natmusic.core.mockdata.MockData
 import com.example.natmusic.core.mvi.BaseViewModel
-import com.example.natmusic.core.service.MusicPlayerHandler
+import com.example.natmusic.core.service.api.MusicController
 import kotlinx.coroutines.launch
 
-/**
- * ViewModel for the Home feed tab.
- *
- * ── Two responsibilities ──────────────────────────────────────────────────────
- *  1. Load mock feed catalogues (recentItems, recommendedItems, trendingItems).
- *  2. Observe [MusicPlayerHandler] flows and surface the result as playback
- *     fields in [HomeContract.State] so the MiniPlayer in [HomeNavScreen]
- *     can read them without needing a separate ViewModel.
- *
- * ── Why keep playback here and not in a separate ViewModel? ──────────────────
- *  Constraint: no new ViewModels. [HomeViewModel] is already injected in both
- *  [HomeScreen] (via `koinViewModel()`) and [HomeNavScreen] (via `koinViewModel()`).
- *  Because Koin scopes ViewModels to the [ViewModelStore] of the nearest
- *  [ViewModelStoreOwner] (the Activity), both call-sites receive the SAME
- *  instance — so every state update is instantly reflected everywhere.
- *
- * ── Intent routing ────────────────────────────────────────────────────────────
- *  • Feed intents  (OpenMusicItem)          → handled here.
- *  • Player intents (PlayPause/Next/Prev/Seek) → forwarded to [MusicPlayerHandler];
- *    [observePlayer] picks up the resulting state change automatically.
- */
 class HomeViewModel(
-    private val playerHandler: MusicPlayerHandler
+    private val musicController: MusicController
 ) : BaseViewModel<
     HomeContract.State,
     HomeContract.Intent,
@@ -47,18 +26,14 @@ class HomeViewModel(
 
     private fun observePlayer() {
         viewModelScope.launch {
-            playerHandler.isPlaying.collect { isPlaying ->
-                updateState { copy(isPlaying = isPlaying) }
-            }
-        }
-        viewModelScope.launch {
-            playerHandler.currentMediaItem.collect { mediaItem ->
-                updateState { copy(currentMediaId = mediaItem?.mediaId) }
-            }
-        }
-        viewModelScope.launch {
-            playerHandler.progress.collect { progress ->
-                updateState { copy(playbackProgress = progress) }
+            musicController.mediaState.collect { state ->
+                updateState { 
+                    copy(
+                        isPlaying = state.isPlaying,
+                        currentMediaId = state.currentMediaItem?.mediaId,
+                        playbackProgress = state.progress
+                    )
+                }
             }
         }
     }
@@ -70,8 +45,8 @@ class HomeViewModel(
             is HomeContract.Intent.OpenMusicItem -> startPlayback(intent.id)
 
             HomeContract.Intent.PlayPause -> {
-                if (playerHandler.isPlaying.value) playerHandler.pause()
-                else playerHandler.resume()
+                if (musicController.mediaState.value.isPlaying) musicController.pause()
+                else musicController.resume()
             }
 
             HomeContract.Intent.Next -> {
@@ -89,7 +64,7 @@ class HomeViewModel(
                 startPlayback(MockData.musicList[prevIndex].id)
             }
 
-            is HomeContract.Intent.Seek -> playerHandler.seekTo(intent.progress)
+            is HomeContract.Intent.Seek -> musicController.seekTo(intent.progress)
         }
     }
 
@@ -101,7 +76,7 @@ class HomeViewModel(
             .setMediaId(item.id)
             .setUri(item.musicUrl)
             .build()
-        playerHandler.play(mediaItem)
+        musicController.play(mediaItem)
     }
 
     private fun loadMockData() {

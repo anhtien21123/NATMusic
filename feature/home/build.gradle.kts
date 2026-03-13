@@ -32,7 +32,7 @@ dependencies {
     // :core:navigation exposes AppRoute / MainRoute / NavBackStack extensions
     implementation(project(":core:navigation"))
     implementation(project(":core:mockdata"))
-    implementation(project(":core:service"))
+    implementation(project(":core:service-api"))
     
     // Media3 (Required for MediaItem in ViewModel)
     implementation(libs.androidx.media3.exoplayer)

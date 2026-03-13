@@ -1,4 +1,4 @@
-package com.example.natmusic.core.service
+package com.example.natmusic.core.service.impl
 
 import android.content.Intent
 import androidx.annotation.OptIn
@@ -6,28 +6,28 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
-import org.koin.android.ext.android.inject
 
 /**
  * [MediaSessionService] implementation for background playback.
  * 
- * This service handles the [ExoPlayer] and [MediaSession] lifecycle.
- * Media3 automatically manages the foreground service status when playing.
+ * OWNERSHIP: This service owns the [ExoPlayer] instance directly to manage its lifecycle
+ * correctly (creation in onCreate, release in onDestroy). It does NOT inject the player.
  */
 class MusicService : MediaSessionService() {
 
     private var mediaSession: MediaSession? = null
-    
-    // We can inject the player if we want to share it, but typically 
-    // the service should own the player instance.
-    private val player: ExoPlayer by inject()
+    private var player: ExoPlayer? = null
 
     @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
         
-        // Build the MediaSession
-        mediaSession = MediaSession.Builder(this, player)
+        // 1. Create the Player instance
+        player = ExoPlayer.Builder(this)
+            .build()
+        
+        // 2. Build the MediaSession
+        mediaSession = MediaSession.Builder(this, player!!)
             .setCallback(CustomMediaSessionCallback())
             .build()
     }
@@ -48,17 +48,18 @@ class MusicService : MediaSessionService() {
 
     override fun onDestroy() {
         mediaSession?.run {
-            player.release()
+            player.release() // Player is released here along with the session
             release()
             mediaSession = null
         }
+        player = null
         super.onDestroy()
     }
 
     /**
-     * Custom callback to handle media session events.
+     * Custom callback for media session events.
      */
     private inner class CustomMediaSessionCallback : MediaSession.Callback {
-        // Implement callbacks for custom actions if needed
+        // Implement callbacks for custom actions here
     }
 }

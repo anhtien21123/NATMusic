@@ -16,7 +16,8 @@
             <option value="$PROJECT_DIR$/core/mockdata" />
             <option value="$PROJECT_DIR$/core/mvi" />
             <option value="$PROJECT_DIR$/core/navigation" />
-            <option value="$PROJECT_DIR$/core/service" />
+            <option value="$PROJECT_DIR$/core/service-api" />
+            <option value="$PROJECT_DIR$/core/service-impl" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/login" />

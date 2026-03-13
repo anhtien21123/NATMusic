@@ -1,6 +1,6 @@
 package com.example.natmusic.di
 
-import com.example.natmusic.core.service.di.serviceModule
+import com.example.natmusic.core.service.impl.di.mediaImplModule
 import com.example.natmusic.feature.home.di.homeKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -31,4 +31,4 @@ val appCoreModule: Module = module {
  * └──────────────────────────────────────────────────────────────────────────┘
  */
 val startupModules: List<Module> =
-    listOf(appCoreModule, serviceModule) + homeKoinModules
+    listOf(appCoreModule, mediaImplModule) + homeKoinModules

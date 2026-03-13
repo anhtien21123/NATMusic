@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.natmusic.core.service"
+    namespace = "com.example.natmusic.core.service.api"
     compileSdk = 36
 
     defaultConfig {
@@ -21,16 +21,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:mvi"))
+    // Only common Media3 models to keep it lightweight
+    implementation(libs.androidx.media3.exoplayer) // Needed for MediaItem if no common defined, or just use session/exoplayer and accept dependency. 
+    // Actually, exoplayer is overkill in API, but let's keep it consistent
     
-    // Media3
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.session)
-    
-    // Koin
-    implementation(platform(libs.koin.bom))
-    implementation(libs.koin.android)
-
-    // Coroutines
+    // Coroutines for StateFlow
     implementation(libs.kotlinx.coroutines.android)
 }
