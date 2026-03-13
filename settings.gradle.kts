@@ -28,6 +28,9 @@ include(":app")
 include(":core:mvi")          // BaseViewModel · ViewState · ViewIntent · ViewSingleEvent
 include(":core:common_ui")    // Design System · Theme · Components · collectSingleEvent
 include(":core:navigation")   // ALL @Serializable routes · deep-link constants · NavBackStack extensions
+include(":core:service-api")  // Interfaces & Media models (Shared)
+include(":core:service-impl") // Media3 implementation (internal)
+include(":core:mockdata")     // Centralized Mock Data for development
 
 // ─── Feature modules ──────────────────────────────────────────────────────────
 include(":feature:home")      // Always-present bottom-nav container (Home · Explore · Library)

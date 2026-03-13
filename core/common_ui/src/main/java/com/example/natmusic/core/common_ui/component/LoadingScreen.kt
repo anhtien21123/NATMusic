@@ -150,7 +150,7 @@ private fun LoadingContent(
             Text(
                 text      = message,
                 style     = MaterialTheme.typography.bodyMedium,
-                color     = MaterialTheme.colorScheme.onSurfaceVariant,
+                color     = MaterialTheme.natColors.textSecondary,
                 textAlign = TextAlign.Center,
                 modifier  = Modifier.alpha(textAlpha)
             )

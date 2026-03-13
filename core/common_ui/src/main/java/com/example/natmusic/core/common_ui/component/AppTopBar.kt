@@ -62,10 +62,10 @@ fun AppTopBar(
     onNavigateUp: (() -> Unit)? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(
-        containerColor       = MaterialTheme.colorScheme.surface,
-        titleContentColor    = MaterialTheme.colorScheme.onSurface,
-        navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
-        actionIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        containerColor       = MaterialTheme.natColors.background,
+        titleContentColor    = MaterialTheme.natColors.textPrimary,
+        navigationIconContentColor = MaterialTheme.natColors.textPrimary,
+        actionIconContentColor = MaterialTheme.natColors.textSecondary
     ),
     actions: @Composable RowScope.() -> Unit = {}
 ) {
@@ -96,7 +96,7 @@ fun AppTopBar(
                     Text(
                         text  = subtitle,
                         style = MaterialTheme.typography.bodySmall.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.natColors.textSecondary
                         ),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -125,10 +125,10 @@ fun AppTopBarCentered(
     onNavigateUp: (() -> Unit)? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-        containerColor    = MaterialTheme.colorScheme.surface,
-        titleContentColor = MaterialTheme.colorScheme.onSurface,
-        navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
-        actionIconContentColor     = MaterialTheme.colorScheme.onSurfaceVariant
+        containerColor    = MaterialTheme.natColors.background,
+        titleContentColor = MaterialTheme.natColors.textPrimary,
+        navigationIconContentColor = MaterialTheme.natColors.textPrimary,
+        actionIconContentColor     = MaterialTheme.natColors.textSecondary
     ),
     actions: @Composable RowScope.() -> Unit = {}
 ) {

@@ -43,7 +43,7 @@ fun NatTextField(
             Text(
                 text = placeholder,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                color = MaterialTheme.natColors.textSecondary.copy(alpha = 0.8f)
             )
         },
         isError = isError,

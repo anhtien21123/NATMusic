@@ -1,5 +1,6 @@
 package com.example.natmusic.navigation
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -9,10 +10,12 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.natmusic.core.navigation.AppRoute
 import com.example.natmusic.core.navigation.DeepLinks
 import com.example.natmusic.core.navigation.popUpTo
-import com.example.natmusic.feature.home.HomeNavScreen
+import com.example.natmusic.feature.home.detail.DetailScreen
+import com.example.natmusic.feature.home.presentation.HomeNavScreen
 import com.example.natmusic.feature.login.LoginScreen
 import com.example.natmusic.feature.setting.SettingScreen
-import com.example.natmusic.ui.DetailScreen
+
+
 
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
@@ -83,6 +86,7 @@ import com.example.natmusic.ui.DetailScreen
  *   natmusic://natmusic.example.com/detail/abc123   → [Login, Main, Detail("abc123")]
  *   natmusic://natmusic.example.com/setting         → [Login, Main, Setting]
  */
+@SuppressLint("ContextCastToActivity")
 @Composable
 fun AppNavHost() {
 

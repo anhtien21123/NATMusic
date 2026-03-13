@@ -13,7 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.natmusic.core.common_ui.spacing
 
 @Composable
 fun SectionTitle(
@@ -21,20 +23,26 @@ fun SectionTitle(
     modifier: Modifier = Modifier,
     onMoreClick: () -> Unit = {}
 ) {
+    val spacing = MaterialTheme.spacing
+
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = spacing.md, vertical = spacing.sm),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = title, style = MaterialTheme.typography.headlineSmall)
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.natColors.textPrimary
+        )
         IconButton(onClick = onMoreClick) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = "See more"
+                contentDescription = "See more",
+                tint = MaterialTheme.natColors.textSecondary
             )
         }
     }
 }
-
