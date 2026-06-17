@@ -53,7 +53,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.natmusic.core.common_ui.spacing
-import com.example.natmusic.core.navigation.MainRoute
+import com.example.natmusic.core.navigation.MainTab
 import com.example.natmusic.feature.home.HomeNavContract
 import com.example.natmusic.feature.home.NowPlayingUiState
 import com.example.natmusic.feature.home.presentation.component.FullPlayerScreen
@@ -62,16 +62,16 @@ import com.example.natmusic.feature.home.presentation.component.MiniPlayer
 // ── Nav-item descriptor (private) ─────────────────────────────────────────────
 
 private data class NavItem(
-    val route: MainRoute,
+    val route: MainTab,
     val label: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector
 )
 
 private val NAV_ITEMS = listOf(
-    NavItem(MainRoute.Home,    "Home",    Icons.Default.Home,         Icons.Outlined.Home),
-    NavItem(MainRoute.Explore, "Search",  Icons.Default.Search,       Icons.Outlined.Search),
-    NavItem(MainRoute.Library, "Library", Icons.Default.LibraryMusic, Icons.Outlined.LibraryMusic)
+    NavItem(MainTab.Home,    "Home",    Icons.Default.Home,         Icons.Outlined.Home),
+    NavItem(MainTab.Explore, "Search",  Icons.Default.Search,       Icons.Outlined.Search),
+    NavItem(MainTab.Library, "Library", Icons.Default.LibraryMusic, Icons.Outlined.LibraryMusic)
 )
 
 // Height constants used to compute content padding and MiniPlayer positioning.
@@ -115,7 +115,7 @@ private val MINI_PLAYER_HEIGHT   = 72.dp   // progress strip + content row
 fun HomeNavContent(
     state: HomeNavContract.State,
     nowPlaying: NowPlayingUiState?,
-    onTabSelected: (MainRoute) -> Unit,
+    onTabSelected: (MainTab) -> Unit,
     onTogglePlay: () -> Unit,
     onSkipNext: () -> Unit,
     onSkipPrevious: () -> Unit,
@@ -161,9 +161,9 @@ fun HomeNavContent(
             val padding = PaddingValues(bottom = contentBottomPadding)
             Box(Modifier.fillMaxSize()) {
                 when (tab) {
-                    MainRoute.Home    -> homeScreenContent(padding)
-                    MainRoute.Explore -> exploreScreenContent(padding)
-                    MainRoute.Library -> libraryScreenContent(padding)
+                    MainTab.Home    -> homeScreenContent(padding)
+                    MainTab.Explore -> exploreScreenContent(padding)
+                    MainTab.Library -> libraryScreenContent(padding)
                 }
             }
         }
@@ -236,8 +236,8 @@ fun HomeNavContent(
 @Composable
 private fun CustomBottomBar(
     modifier: Modifier = Modifier,
-    currentTab: MainRoute,
-    onTabSelected: (MainRoute) -> Unit
+    currentTab: MainTab,
+    onTabSelected: (MainTab) -> Unit
 ) {
     val spacing = MaterialTheme.spacing
 
@@ -304,7 +304,7 @@ private fun CustomBottomBar(
 private fun PreviewNoPlayback() {
     MaterialTheme {
         HomeNavContent(
-            state                = HomeNavContract.State(currentTab = MainRoute.Home),
+            state                = HomeNavContract.State(currentTab = MainTab.Home),
             nowPlaying           = null,
             onTabSelected        = {},
             onTogglePlay         = {},
@@ -324,7 +324,7 @@ private fun PreviewNoPlayback() {
 private fun PreviewPlaying() {
     MaterialTheme {
         HomeNavContent(
-            state      = HomeNavContract.State(currentTab = MainRoute.Explore),
+            state      = HomeNavContract.State(currentTab = MainTab.Explore),
             nowPlaying = NowPlayingUiState(
                 trackId    = "1",
                 title      = "Midnight Rain",

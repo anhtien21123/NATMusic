@@ -25,6 +25,7 @@ object LibraryContract {
     sealed class Intent : ViewIntent {
         data class OpenItem(val id: String) : Intent()
         data class FilterByType(val type: MediaType?) : Intent()
+        data object OnSettingsClick : Intent()
     }
 
     sealed class SingleEvent : ViewSingleEvent {

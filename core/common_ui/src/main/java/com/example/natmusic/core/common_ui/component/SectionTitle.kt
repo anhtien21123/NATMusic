@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.natmusic.core.common_ui.spacing
+import com.example.natmusic.core.common_ui.natColors
 
 @Composable
 fun SectionTitle(

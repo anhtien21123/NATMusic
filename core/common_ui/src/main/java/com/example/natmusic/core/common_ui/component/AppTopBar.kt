@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.natmusic.core.common_ui.NATMusicTheme
 import com.example.natmusic.core.common_ui.R
+import com.example.natmusic.core.common_ui.natColors
 
 // ══════════════════════════════════════════════════════════════════════════════
 //  AppTopBar — NATMusic's unified top app bar

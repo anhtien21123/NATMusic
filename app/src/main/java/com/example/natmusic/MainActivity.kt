@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NATMusicTheme {
-                // AppNavHost is the sole owner of the NavBackStack<AppRoute>.
+                // AppNavHost is the sole owner of the NavBackStack<AppDestination>.
                 // It creates / restores the back stack from the launch Intent,
                 // handles deep links, and maps feature SingleEvents to nav mutations.
                 AppNavHost()

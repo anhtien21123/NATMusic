@@ -7,6 +7,7 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.natmusic.core.common_ui.natColors
 
 /**
  * A stateless playback slider component for music and media controllers.

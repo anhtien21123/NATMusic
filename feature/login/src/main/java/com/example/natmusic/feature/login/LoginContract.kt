@@ -25,8 +25,8 @@ object LoginContract {
     sealed class SingleEvent : ViewSingleEvent {
         /**
          * Emitted on successful login/register.
-         * :app maps this to navController.navigate(AppRoute.Home).
-         * :feature:login has zero knowledge of AppRoute — no circular dep.
+         * :app maps this to navController.navigate(AppDestination.Home).
+         * :feature:login has zero knowledge of AppDestination — no circular dep.
          */
         data object NavigateToMain : SingleEvent()
     }

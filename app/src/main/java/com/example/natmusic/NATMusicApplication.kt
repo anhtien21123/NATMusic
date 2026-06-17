@@ -32,7 +32,7 @@ import org.koin.core.logger.Level
  *    SplitInstallManager.startInstall(request)
  *    // In SplitInstallStateUpdatedListener when state == INSTALLED:
  *    loadKoinModules(loginKoinModules)
- *    navController.navigate(AppRoute.Login)
+ *    navController.navigate(AppDestination.Login)
  * ──────────────────────────────────────────────────────────────────────────
  */
 class NATMusicApplication : Application() {

@@ -22,6 +22,8 @@ class LibraryViewModel : BaseViewModel<
                                else allItems.filter { it.type == intent.type }
                 updateState { copy(items = filtered, selectedFilter = intent.type) }
             }
+            LibraryContract.Intent.OnSettingsClick ->
+                sendSingleEvent(LibraryContract.SingleEvent.NavigateToSettings)
         }
     }
 

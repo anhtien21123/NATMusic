@@ -8,7 +8,7 @@ package com.example.natmusic.core.navigation
  *  Nav3's NavBackStack is a SnapshotStateList<T> (which extends MutableList<T>).
  *  These extensions are written against [MutableList] so that:
  *   • :core:navigation compiles without pulling in the nav3-runtime artifact.
- *   • :app calls them on the real NavBackStack<AppRoute> instance.
+ *   • :app calls them on the real NavBackStack<AppDestination> instance.
  *   • Unit tests can drive them with a plain mutableListOf().
  *
  *  ─── Nav2 → Nav3 cheat sheet ─────────────────────────────────────────────────
@@ -43,13 +43,13 @@ fun <T : Any> MutableList<T>.popUpTo(
  * Usage:
  * ```kotlin
  * // After login — remove Login, then push Main:
- * backStack.popUpTo<AppRoute, AppRoute.Login>(inclusive = true)
- * backStack.add(AppRoute.Main)
+ * backStack.popUpTo<AppDestination, AppDestination.Login>(inclusive = true)
+ * backStack.add(AppDestination.Main)
  * ```
  *
  * Two type parameters are required because [R] must be a subtype of [T]:
- *   T = AppRoute (the list element type / sealed interface)
- *   R = AppRoute.Login (the specific subtype to pop to)
+ *   T = AppDestination (the list element type / sealed interface)
+ *   R = AppDestination.Login (the specific subtype to pop to)
  */
 inline fun <T : Any, reified R : T> MutableList<T>.popUpTo(inclusive: Boolean = true) {
     popUpTo(inclusive = inclusive) { it is R }
@@ -65,7 +65,7 @@ inline fun <T : Any, reified R : T> MutableList<T>.popUpTo(inclusive: Boolean = 
  *
  * Usage (tab switching — avoids duplicate tab entries):
  * ```kotlin
- * innerBackStack.navigateSingleTop(MainRoute.Explore)
+ * innerBackStack.navigateSingleTop(MainTab.Explore)
  * ```
  */
 fun <T : Any> MutableList<T>.navigateSingleTop(destination: T) {

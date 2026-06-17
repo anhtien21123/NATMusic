@@ -6,6 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.natmusic.core.common_ui.collectSingleEvent
+import com.example.natmusic.core.common_ui.LocalNavigator
+import com.example.natmusic.core.navigation.SettingNavigationContract
+import com.example.natmusic.core.navigation.HomeNavigationContract
 import org.koin.androidx.compose.koinViewModel
 
 /**
@@ -19,20 +22,23 @@ import org.koin.androidx.compose.koinViewModel
 fun LibraryScreen(
     viewModel: LibraryViewModel = koinViewModel(),
     contentPadding: PaddingValues = PaddingValues(),
-    onSettingsClick: () -> Unit
+    onNavigateToSettings: () -> Unit,
+    onNavigateToDetail: (String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     // ── Side-effects: Handle navigation & notifications ──────────────────────
     viewModel.singleEvent.collectSingleEvent { event ->
         when (event) {
-            is LibraryContract.SingleEvent.NavigateToSettings -> onSettingsClick()
-            else -> Unit
+            LibraryContract.SingleEvent.NavigateToSettings ->
+                onNavigateToSettings()
+            is LibraryContract.SingleEvent.NavigateToDetail ->
+                onNavigateToDetail(event.id)
         }
     }
 
     // ── Actions: Map UI interaction directly to ViewModel intents ───────────
-    val actions = remember(viewModel, onSettingsClick) {
+    val actions = remember(viewModel) {
         object : LibraryActions {
             override fun onFilterClick(type: MediaType?) {
                 viewModel.handleIntent(LibraryContract.Intent.FilterByType(type))
@@ -41,7 +47,7 @@ fun LibraryScreen(
                 viewModel.handleIntent(LibraryContract.Intent.OpenItem(id))
             }
             override fun onSettingsClick() {
-                onSettingsClick()
+                viewModel.handleIntent(LibraryContract.Intent.OnSettingsClick)
             }
         }
     }

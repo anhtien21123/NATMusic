@@ -3,8 +3,14 @@ package com.example.natmusic.feature.setting
 import com.example.natmusic.core.mvi.BaseViewModel
 
 /**
- * Setting ViewModel — DFM candidate.
- * Loaded via loadKoinModules(settingKoinModules) on entering the screen.
+ * ViewModel for the Setting screen.
+ *
+ * Handles all [SettingContract.Intent]s and emits [SettingContract.SingleEvent]s
+ * for one-time side effects (navigation, toasts, etc.).
+ *
+ * ── DFM candidate ────────────────────────────────────────────────────────────
+ *  This ViewModel is loaded via [loadKoinModules(settingKoinModules)] on-demand
+ *  inside [SettingScreen], supporting future Dynamic Feature Module delivery.
  */
 class SettingViewModel : BaseViewModel<
     SettingContract.State,
@@ -14,6 +20,11 @@ class SettingViewModel : BaseViewModel<
     initialState = SettingContract.State()
 ) {
     override fun handleIntent(intent: SettingContract.Intent) {
-        // Handle setting intents as the feature grows
+        when (intent) {
+            // User tapped Back → emit a NavigateBack effect.
+            // The UI collects it and calls navigator.navigateUp().
+            SettingContract.Intent.OnBackClicked ->
+                sendSingleEvent(SettingContract.SingleEvent.NavigateBack)
+        }
     }
 }

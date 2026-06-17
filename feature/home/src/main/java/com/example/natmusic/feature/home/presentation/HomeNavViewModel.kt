@@ -1,7 +1,7 @@
 package com.example.natmusic.feature.home
 
 import com.example.natmusic.core.mvi.BaseViewModel
-import com.example.natmusic.core.navigation.MainRoute
+import com.example.natmusic.core.navigation.MainTab
 
 class HomeNavViewModel : BaseViewModel<
     HomeNavContract.State,
@@ -14,20 +14,12 @@ class HomeNavViewModel : BaseViewModel<
         when (intent) {
             is HomeNavContract.Intent.OnTabSelected ->
                 updateState { copy(currentTab = intent.route) }
-
-            HomeNavContract.Intent.OnSettingsClicked ->
-                sendSingleEvent(HomeNavContract.SingleEvent.NavigateToSettings)
-
-            is HomeNavContract.Intent.OnDetailRequested ->
-                sendSingleEvent(
-                    HomeNavContract.SingleEvent.NavigateToDetail(intent.id, intent.origin)
-                )
         }
     }
 
-    fun tabOrigin(route: MainRoute): String = when (route) {
-        MainRoute.Home    -> "home"
-        MainRoute.Explore -> "explore"
-        MainRoute.Library -> "library"
+    fun tabOrigin(route: MainTab): String = when (route) {
+        MainTab.Home    -> "home"
+        MainTab.Explore -> "explore"
+        MainTab.Library -> "library"
     }
 }

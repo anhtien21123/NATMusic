@@ -5,12 +5,20 @@ import com.example.natmusic.feature.home.di.homeKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+import com.example.natmusic.core.navigation.AuthNavigationContract
+import com.example.natmusic.core.navigation.HomeNavigationContract
+import com.example.natmusic.core.navigation.SettingNavigationContract
+import com.example.natmusic.feature.login.navigation.AuthNavigationContractImpl
+import com.example.natmusic.feature.home.navigation.HomeNavigationContractImpl
+import com.example.natmusic.feature.setting.navigation.SettingNavigationContractImpl
+
 // ─────────────────────────────────────────────────────────────────────────────
 // App-level infrastructure module
 // ─────────────────────────────────────────────────────────────────────────────
 val appCoreModule: Module = module {
-    // TODO: single { AnalyticsTracker(androidContext()) }
-    // TODO: single<SessionManager> { SessionManagerImpl(get()) }
+    single<AuthNavigationContract> { AuthNavigationContractImpl }
+    single<HomeNavigationContract> { HomeNavigationContractImpl }
+    single<SettingNavigationContract> { SettingNavigationContractImpl }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

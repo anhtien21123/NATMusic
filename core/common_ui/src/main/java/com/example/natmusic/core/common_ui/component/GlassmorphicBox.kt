@@ -15,6 +15,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asComposeRenderEffect
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.material3.MaterialTheme
+import com.example.natmusic.core.common_ui.natColors
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 

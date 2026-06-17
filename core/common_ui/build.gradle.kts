@@ -27,6 +27,8 @@ android {
 dependencies {
     // :core:mvi interfaces (ViewSingleEvent) needed by collectSingleEvent
     implementation(project(":core:mvi"))
+    // :core:navigation — Navigator interface needed by LocalNavigator composition local
+    implementation(project(":core:navigation"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
