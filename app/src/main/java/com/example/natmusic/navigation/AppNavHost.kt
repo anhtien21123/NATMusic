@@ -13,7 +13,6 @@ import com.example.natmusic.core.navigation.AuthDestination
 import com.example.natmusic.core.navigation.HomeDestination
 import com.example.natmusic.core.navigation.SettingDestination
 import com.example.natmusic.core.navigation.Destination
-import com.example.natmusic.core.navigation.DeepLinks
 import com.example.natmusic.feature.home.navigation.HomeFeatureContent
 import com.example.natmusic.feature.login.navigation.AuthFeatureContent
 import com.example.natmusic.feature.setting.navigation.SettingFeatureContent
