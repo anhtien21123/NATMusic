@@ -30,9 +30,13 @@ include(":core:common_ui")    // Design System · Theme · Components · collect
 include(":core:navigation")   // ALL @Serializable routes · deep-link constants · NavBackStack extensions
 include(":core:service-api")  // Interfaces & Media models (Shared)
 include(":core:service-impl") // Media3 implementation (internal)
-include(":core:mockdata")     // Centralized Mock Data for development
-
 // ─── Feature modules ──────────────────────────────────────────────────────────
-include(":feature:home")      // Always-present bottom-nav container (Home · Explore · Library)
-include(":feature:login")     // DFM candidate — Koin modules loaded on demand
-include(":feature:setting")   // DFM candidate — Koin modules loaded on demand
+include(":feature:home")
+include(":feature:home:domain")
+include(":feature:home:data")
+include(":feature:login")
+include(":feature:login:domain")
+include(":feature:login:data")
+include(":feature:setting")
+include(":feature:setting:domain")
+include(":feature:setting:data")

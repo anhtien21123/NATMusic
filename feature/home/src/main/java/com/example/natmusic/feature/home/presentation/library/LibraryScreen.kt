@@ -9,6 +9,7 @@ import com.example.natmusic.core.common_ui.collectSingleEvent
 import com.example.natmusic.core.common_ui.LocalNavigator
 import com.example.natmusic.core.navigation.SettingNavigationContract
 import com.example.natmusic.core.navigation.HomeNavigationContract
+import com.example.natmusic.feature.home.domain.model.LibraryItemType
 import org.koin.androidx.compose.koinViewModel
 
 /**
@@ -40,7 +41,7 @@ fun LibraryScreen(
     // ── Actions: Map UI interaction directly to ViewModel intents ───────────
     val actions = remember(viewModel) {
         object : LibraryActions {
-            override fun onFilterClick(type: MediaType?) {
+            override fun onFilterClick(type: LibraryItemType?) {
                 viewModel.handleIntent(LibraryContract.Intent.FilterByType(type))
             }
             override fun onItemClick(id: String) {

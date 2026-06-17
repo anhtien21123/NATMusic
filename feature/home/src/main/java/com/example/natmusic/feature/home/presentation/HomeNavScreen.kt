@@ -3,7 +3,6 @@ package com.example.natmusic.feature.home.presentation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.natmusic.core.mockdata.MockData
 import com.example.natmusic.feature.home.HomeNavContract
 import com.example.natmusic.feature.home.HomeNavViewModel
 import com.example.natmusic.feature.home.NowPlayingUiState
@@ -35,9 +34,8 @@ import org.koin.androidx.compose.koinViewModel
  *
  * ── MiniPlayer wiring ─────────────────────────────────────────────────────────
  *
- *  [homeState.currentMediaId] is resolved against [MockData.musicList] to build
- *  a [NowPlayingUiState] snapshot (title, artwork, progress, isPlaying) that is
- *  passed down to [HomeNavContent] → [MiniPlayer] / [FullPlayerScreen].
+ *  [homeState.nowPlaying] is derived in [HomeViewModel] from playback state
+ *  and passed down to [HomeNavContent] → [MiniPlayer] / [FullPlayerScreen].
  */
 import androidx.compose.runtime.remember
 import com.example.natmusic.core.common_ui.LocalNavigator
@@ -57,17 +55,15 @@ fun HomeNavScreen(
     val homeState by homeViewModel.state.collectAsStateWithLifecycle()
 
     // ── Derive MiniPlayer state from HomeViewModel ─────────────────────────────
-    val nowPlaying: NowPlayingUiState? = homeState.currentMediaId?.let { id ->
-        MockData.musicList.find { it.id == id }?.let { item ->
-            NowPlayingUiState(
-                trackId    = item.id,
-                title      = item.title,
-                subtitle   = item.subtitle,
-                artworkUrl = item.imageUrl,
-                progress   = homeState.playbackProgress,
-                isPlaying  = homeState.isPlaying
-            )
-        }
+    val nowPlaying: NowPlayingUiState? = homeState.nowPlaying?.let { item ->
+        NowPlayingUiState(
+            trackId    = item.id,
+            title      = item.title,
+            subtitle   = item.subtitle,
+            artworkUrl = item.imageUrl,
+            progress   = homeState.playbackProgress,
+            isPlaying  = homeState.isPlaying
+        )
     }
 
     // ── Wire to stateless UI ───────────────────────────────────────────────────

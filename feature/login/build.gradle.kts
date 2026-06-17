@@ -27,8 +27,9 @@ android {
 dependencies {
     implementation(project(":core:mvi"))
     implementation(project(":core:common_ui"))
-    // :core:navigation gives LoginContract access to AppRoute for SingleEvent typing
     implementation(project(":core:navigation"))
+    implementation(project(":feature:login:domain"))
+    implementation(project(":feature:login:data"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)

@@ -101,6 +101,14 @@ fun LoginContent(
                 onClick = onSubmit
             )
 
+            state.errorMessage?.let { message ->
+                Text(
+                    text = message,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+
             NatTextAction(
                 text = if (state.isRegister) "Already have an account?" else "Don't have an account?",
                 actionText = if (state.isRegister) "Login" else "Sign Up",

@@ -1,14 +1,25 @@
 package com.example.natmusic.feature.home.home
 
 import androidx.lifecycle.viewModelScope
-import androidx.media3.common.MediaItem
-import com.example.natmusic.core.mockdata.MockData
 import com.example.natmusic.core.mvi.BaseViewModel
-import com.example.natmusic.core.service.api.MusicController
+import com.example.natmusic.feature.home.domain.model.SkipDirection
+import com.example.natmusic.feature.home.domain.usecase.GetHomeFeedUseCase
+import com.example.natmusic.feature.home.domain.usecase.GetTrackByIdUseCase
+import com.example.natmusic.feature.home.domain.usecase.ObservePlaybackUseCase
+import com.example.natmusic.feature.home.domain.usecase.PlayTrackUseCase
+import com.example.natmusic.feature.home.domain.usecase.SeekPlaybackUseCase
+import com.example.natmusic.feature.home.domain.usecase.SkipTrackUseCase
+import com.example.natmusic.feature.home.domain.usecase.TogglePlaybackUseCase
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val musicController: MusicController
+    private val getHomeFeed: GetHomeFeedUseCase,
+    private val getTrackById: GetTrackByIdUseCase,
+    private val playTrack: PlayTrackUseCase,
+    private val observePlayback: ObservePlaybackUseCase,
+    private val togglePlayback: TogglePlaybackUseCase,
+    private val skipTrack: SkipTrackUseCase,
+    private val seekPlayback: SeekPlaybackUseCase
 ) : BaseViewModel<
     HomeContract.State,
     HomeContract.Intent,
@@ -18,75 +29,59 @@ class HomeViewModel(
 ) {
 
     init {
-        loadMockData()
+        loadFeed()
         observePlayer()
     }
 
-    // ── Player observation ────────────────────────────────────────────────────
-
     private fun observePlayer() {
         viewModelScope.launch {
-            musicController.mediaState.collect { state ->
-                updateState { 
+            observePlayback().collect { playback ->
+                val track = playback.currentTrackId?.let { getTrackById(it) }
+                updateState {
                     copy(
-                        isPlaying = state.isPlaying,
-                        currentMediaId = state.currentMediaItem?.mediaId,
-                        playbackProgress = state.progress
+                        isPlaying = playback.isPlaying,
+                        currentMediaId = playback.currentTrackId,
+                        playbackProgress = playback.progress,
+                        nowPlaying = track?.toUi()
                     )
                 }
             }
         }
     }
 
-    // ── Intent handling ───────────────────────────────────────────────────────
-
     override fun handleIntent(intent: HomeContract.Intent) {
         when (intent) {
-            is HomeContract.Intent.OpenMusicItem -> startPlayback(intent.id)
-
-            HomeContract.Intent.PlayPause -> {
-                if (musicController.mediaState.value.isPlaying) musicController.pause()
-                else musicController.resume()
+            is HomeContract.Intent.OpenMusicItem -> viewModelScope.launch {
+                playTrack(intent.id)
             }
 
-            HomeContract.Intent.Next -> {
-                val currentIndex = MockData.musicList
-                    .indexOfFirst { it.id == state.value.currentMediaId }
-                val nextIndex = (currentIndex + 1) % MockData.musicList.size
-                startPlayback(MockData.musicList[nextIndex].id)
+            HomeContract.Intent.PlayPause ->
+                togglePlayback(state.value.isPlaying)
+
+            HomeContract.Intent.Next -> viewModelScope.launch {
+                skipTrack(SkipDirection.NEXT)
             }
 
-            HomeContract.Intent.Previous -> {
-                val currentIndex = MockData.musicList
-                    .indexOfFirst { it.id == state.value.currentMediaId }
-                val prevIndex = if (currentIndex <= 0) MockData.musicList.size - 1
-                               else currentIndex - 1
-                startPlayback(MockData.musicList[prevIndex].id)
+            HomeContract.Intent.Previous -> viewModelScope.launch {
+                skipTrack(SkipDirection.PREVIOUS)
             }
 
-            is HomeContract.Intent.Seek -> musicController.seekTo(intent.progress)
+            is HomeContract.Intent.Seek -> seekPlayback(intent.progress)
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
-    private fun startPlayback(id: String) {
-        val item = MockData.musicList.find { it.id == id } ?: return
-        val mediaItem = MediaItem.Builder()
-            .setMediaId(item.id)
-            .setUri(item.musicUrl)
-            .build()
-        musicController.play(mediaItem)
-    }
-
-    private fun loadMockData() {
-        val items = MockData.musicList
-        updateState {
-            copy(
-                recentItems      = items.shuffled(),
-                recommendedItems = items.shuffled(),
-                trendingItems    = items.shuffled()
-            )
+    private fun loadFeed() {
+        viewModelScope.launch {
+            updateState { copy(isLoading = true) }
+            val feed = getHomeFeed()
+            updateState {
+                copy(
+                    isLoading = false,
+                    recentItems = feed.recent.map { it.toUi() },
+                    recommendedItems = feed.recommended.map { it.toUi() },
+                    trendingItems = feed.trending.map { it.toUi() }
+                )
+            }
         }
     }
 }

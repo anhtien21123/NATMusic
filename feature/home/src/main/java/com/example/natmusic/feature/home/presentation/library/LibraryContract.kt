@@ -3,28 +3,19 @@ package com.example.natmusic.feature.home.library
 import com.example.natmusic.core.mvi.ViewIntent
 import com.example.natmusic.core.mvi.ViewSingleEvent
 import com.example.natmusic.core.mvi.ViewState
-
-data class MediaItem(
-    val id: String,
-    val title: String,
-    val subtitle: String,
-    val imageUrl: String,
-    val type: MediaType
-)
-
-enum class MediaType { PLAYLIST, ARTIST, ALBUM }
+import com.example.natmusic.feature.home.domain.model.LibraryItemType
 
 object LibraryContract {
 
     data class State(
         val isLoading: Boolean = false,
-        val items: List<MediaItem> = emptyList(),
-        val selectedFilter: MediaType? = null
+        val items: List<LibraryItemUi> = emptyList(),
+        val selectedFilter: LibraryItemType? = null
     ) : ViewState
 
     sealed class Intent : ViewIntent {
         data class OpenItem(val id: String) : Intent()
-        data class FilterByType(val type: MediaType?) : Intent()
+        data class FilterByType(val type: LibraryItemType?) : Intent()
         data object OnSettingsClick : Intent()
     }
 

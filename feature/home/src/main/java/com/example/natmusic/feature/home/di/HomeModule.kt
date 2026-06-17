@@ -27,7 +27,11 @@ val homeModule: Module = module {
 
     // DetailViewModel requires explicit parameters (id, origin) from NavEntry.
     factory { (id: String, origin: String) ->
-        DetailViewModel(id = id, origin = origin)
+        DetailViewModel(
+            id = id,
+            origin = origin,
+            getTrackById = get()
+        )
     }
 }
 

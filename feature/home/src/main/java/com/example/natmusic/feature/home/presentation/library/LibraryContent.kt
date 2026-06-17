@@ -23,13 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.natmusic.core.common_ui.component.LibraryItem
+import com.example.natmusic.feature.home.domain.model.LibraryItemType
 
 /**
  * Interface to group multiple UI actions for the Library screen.
  * Used when number of callbacks > 5.
  */
 interface LibraryActions {
-    fun onFilterClick(type: MediaType?)
+    fun onFilterClick(type: LibraryItemType?)
     fun onItemClick(id: String)
     fun onSettingsClick()
 }
@@ -69,18 +70,18 @@ fun LibraryContent(
                         label = { Text("All") }
                     )
                     FilterChip(
-                        selected = state.selectedFilter == MediaType.PLAYLIST,
-                        onClick = { actions.onFilterClick(MediaType.PLAYLIST) },
+                        selected = state.selectedFilter == LibraryItemType.PLAYLIST,
+                        onClick = { actions.onFilterClick(LibraryItemType.PLAYLIST) },
                         label = { Text("Playlists") }
                     )
                     FilterChip(
-                        selected = state.selectedFilter == MediaType.ARTIST,
-                        onClick = { actions.onFilterClick(MediaType.ARTIST) },
+                        selected = state.selectedFilter == LibraryItemType.ARTIST,
+                        onClick = { actions.onFilterClick(LibraryItemType.ARTIST) },
                         label = { Text("Artists") }
                     )
                     FilterChip(
-                        selected = state.selectedFilter == MediaType.ALBUM,
-                        onClick = { actions.onFilterClick(MediaType.ALBUM) },
+                        selected = state.selectedFilter == LibraryItemType.ALBUM,
+                        onClick = { actions.onFilterClick(LibraryItemType.ALBUM) },
                         label = { Text("Albums") }
                     )
                 }
@@ -111,7 +112,7 @@ private fun LibraryContentPreview() {
     LibraryContent(
         state = LibraryContract.State(),
         actions = object : LibraryActions {
-            override fun onFilterClick(type: MediaType?) {}
+            override fun onFilterClick(type: LibraryItemType?) {}
             override fun onItemClick(id: String) {}
             override fun onSettingsClick() {}
         }

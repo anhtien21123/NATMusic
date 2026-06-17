@@ -28,6 +28,8 @@ dependencies {
     implementation(project(":core:mvi"))
     implementation(project(":core:common_ui"))
     implementation(project(":core:navigation"))
+    implementation(project(":feature:setting:domain"))
+    implementation(project(":feature:setting:data"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)

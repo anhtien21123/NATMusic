@@ -11,7 +11,8 @@ object LoginContract {
         val email: String = "",
         val password: String = "",
         val confirmPassword: String = "",
-        val isRegister: Boolean = false
+        val isRegister: Boolean = false,
+        val errorMessage: String? = null
     ) : ViewState
 
     sealed class Intent : ViewIntent {

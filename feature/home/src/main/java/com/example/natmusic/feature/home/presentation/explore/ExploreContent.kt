@@ -93,10 +93,10 @@ private fun ExploreContentPreview() {
         ExploreContent(
             state = ExploreContract.State(
                 categories = listOf(
-                    ExploreItem("1", "Pop", Color(0xFFEF5350)),
-                    ExploreItem("2", "Rock", Color(0xFFAB47BC)),
-                    ExploreItem("3", "Hip-Hop", Color(0xFF42A5F5)),
-                    ExploreItem("4", "Jazz", Color(0xFF26A69A))
+                    ExploreItemUi("1", "Pop", Color(0xFFEF5350)),
+                    ExploreItemUi("2", "Rock", Color(0xFFAB47BC)),
+                    ExploreItemUi("3", "Hip-Hop", Color(0xFF42A5F5)),
+                    ExploreItemUi("4", "Jazz", Color(0xFF26A69A))
                 )
             ),
             onSearchQueryChange = {},

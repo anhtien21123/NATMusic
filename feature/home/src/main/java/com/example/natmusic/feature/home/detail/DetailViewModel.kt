@@ -1,23 +1,30 @@
 package com.example.natmusic.feature.home.detail
 
+import androidx.lifecycle.viewModelScope
 import com.example.natmusic.core.mvi.BaseViewModel
+import com.example.natmusic.feature.home.domain.usecase.GetTrackByIdUseCase
+import kotlinx.coroutines.launch
 
-/**
- * ViewModel for the Detail screen. Scoped to the individual NavEntry.
- */
 class DetailViewModel(
     private val id: String,
-    private val origin: String
+    private val origin: String,
+    private val getTrackById: GetTrackByIdUseCase
 ) : BaseViewModel<DetailContract.State, DetailContract.Intent, DetailContract.SingleEvent>(
     initialState = DetailContract.State(id = id, origin = origin)
 ) {
     init {
-        // Simulate loading detail data
-        updateState {
-            copy(
-                title = "Track #$id",
-                isLoading = false
-            )
+        loadDetail()
+    }
+
+    private fun loadDetail() {
+        viewModelScope.launch {
+            val track = getTrackById(id)
+            updateState {
+                copy(
+                    title = track?.title ?: "Track #$id",
+                    isLoading = false
+                )
+            }
         }
     }
 

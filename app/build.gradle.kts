@@ -39,8 +39,11 @@ dependencies {
     // ─── Feature modules ──────────────────────────────────────────────────────
     // :app is the composition root — only :app depends on features
     implementation(project(":feature:home"))
+    implementation(project(":feature:home:data"))
     implementation(project(":feature:login"))
+    implementation(project(":feature:login:data"))
     implementation(project(":feature:setting"))
+    implementation(project(":feature:setting:data"))
 
     // ─── Core modules ─────────────────────────────────────────────────────────
     implementation(project(":core:mvi"))

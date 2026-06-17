@@ -18,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.natmusic.core.common_ui.component.MusicItemCard
 import com.example.natmusic.core.common_ui.component.SectionTitle
 import com.example.natmusic.core.common_ui.spacing
-import com.example.natmusic.core.mockdata.MockData
 
 /**
  * Pure stateless UI for the Home feed tab.
@@ -137,13 +136,16 @@ private fun HomeContentEmptyPreview() {
 @Preview(name = "HomeContent – With data", showBackground = true)
 @Composable
 private fun HomeContentWithDataPreview() {
-    val mockItems = MockData.musicList
+    val previewItems = listOf(
+        MusicItemUi("1", "Midnight Rain", "Taylor Swift", "https://picsum.photos/seed/1/300/300"),
+        MusicItemUi("2", "As It Was", "Harry Styles", "https://picsum.photos/seed/2/300/300")
+    )
     MaterialTheme {
         HomeContent(
             state = HomeContract.State(
-                recentItems      = mockItems,
-                recommendedItems = mockItems,
-                trendingItems    = mockItems
+                recentItems      = previewItems,
+                recommendedItems = previewItems,
+                trendingItems    = previewItems
             ),
             onMusicItemClick = {}
         )
